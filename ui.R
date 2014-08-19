@@ -1,7 +1,7 @@
 library(shiny) 
 
 shinyUI(pageWithSidebar(
-  headerPanel("Exercise Mistake Prediction - please allow 30 seconds for data to load..."),
+  headerPanel("Exercise Mistake Prediction"),
   sidebarPanel(
     h4('Select exercise reading from the Readings panel on the right'),
     selectInput("problem_id", label = h3("Problem ID"), 
@@ -18,33 +18,34 @@ shinyUI(pageWithSidebar(
   mainPanel(
     h3('Accelerometer readings:'),
     tabsetPanel(
-      tabPanel('Overview',
+      tabPanel('Prediction', p(verbatimTextOutput("prediction"))),
+      tabPanel('Model graph', plotOutput("graph")),
+      tabPanel('Readings', dataTableOutput("mytable")),
+      tabPanel('Instructions',
                p("This program is a simple UI extension to the class project from the
                   the Machine Learning class.  For analysis and code details,
-                  please see"), a("http://akrylove.github.io/machine-learning/"),
+                 please see"), a("http://akrylove.github.io/machine-learning/"),
                p("Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now
-                  possible to collect a large amount of data about personal activity 
-                  relatively inexpensively. One thing that people
-                  regularly do is quantify how much of a particular activity they do, but
-                  they rarely quantify how well they do it. This program attempts to 
-                  predict whether an exercise was done correctly (outcome A) and, if not,
-                  what type of mistake was made (outcomes B, C, D, E)"),
+                 possible to collect a large amount of data about personal activity 
+                 relatively inexpensively. One thing that people
+                 regularly do is quantify how much of a particular activity they do, but
+                 they rarely quantify how well they do it. This program attempts to 
+                 predict whether an exercise was done correctly (outcome A) and, if not,
+                 what type of mistake was made (outcomes B, C, D, E)"),
                 p("More information is available from the 
-                  website here:"), a("http://groupware.les.inf.puc-rio.br/har"), br(), br(),
-                div(strong("Instructions")),
-                div("1. Click on the Readings tab and note the problem ID for which you would like to predict the outcome"),
-                div("2. Select the problem id from the drop-down on the left"),
-                div("3. Select the Prediction tab to see the results"),
-                div("4. Select various problem id's from the drop-down on the left to see how the prediction changes"),
-                div("5. Select the Graph tab to see the model graph")
-      ),
-      tabPanel('Readings', dataTableOutput("mytable")),
-      tabPanel('Prediction',
-                verbatimTextOutput("prediction"),
-                p("based on the model with the following attributes "),
-                p(verbatimTextOutput("mod"))
-      ),
-      tabPanel('Model graph', plotOutput("graph"))
+                  website here:"), a("http://groupware.les.inf.puc-rio.br/har"), br(),
+                p("As shinyApps.com does not allow to run the 1Gb Random Forrest model that
+                  is used to predict the outcome, this program simply operates on a set of 20 tested
+                  values.  It takes a test number as an input and looks up the result.
+                  You may re-generate and run the actual model from the code available at"),
+                  a("http://akrylove.github.io/machine-learning/"), br(), br(),
+                  div(strong("Instructions")),
+                  div("1. Click on the Readings tab and note the problem ID for which you would like to predict the outcome"),
+                  div("2. Select the problem id from the drop-down on the left"),
+                  div("3. Select the Prediction tab to see the results"),
+                  div("4. Select various problem id's from the drop-down on the left to see how the prediction changes"),
+                  div("5. Select the Graph tab to see answer distribution")
+            )              
+        )
     )
-  )
 ))
